@@ -1,0 +1,49 @@
+2850. Minimum Moves to Spread Stones Over Grid
+
+STATEMENT
+You are given a 0-indexed 2D integer matrix grid of size 3 * 3, representing the number of stones in each cell. 
+The grid contains exactly 9 stones, and there can be multiple stones in a single cell.
+In one move, you can move a single stone from its current cell to any other cell if the two cells share a side.
+Return the minimum number of moves required to place one stone in each cell.
+
+SOLUTION
+class Solution
+{
+public:
+    int minimumMoves(vector<vector<int>>& grid)
+    {
+        vector<pair<int, int>> multiStones, noStones;
+        for (int i=0; i<3; ++i)
+        {
+            for (int j=0; j<3; ++j)
+            {
+                if (grid[i][j]>1)
+                {
+                    for (int k=1; k<grid[i][j]; ++k)
+                    {
+                        multiStones.emplace_back(i, j);
+                    }
+                }
+                else if(grid[i][j]==0)
+                {
+                    noStones.emplace_back(i, j);
+                }
+            }
+        }
+        int ans=10000000;
+        sort(noStones.begin(), noStones.end());
+        do
+        {
+            int cur=0;
+            for (int i=0; i<multiStones.size(); ++i)
+            {
+                cur+=abs(multiStones[i].first-noStones[i].first)+abs(multiStones[i].second-noStones[i].second);
+            }
+                
+            ans=min(ans, cur);
+        }
+        while(next_permutation(noStones.begin(), noStones.end()));
+        return ans;
+    }
+};
+
