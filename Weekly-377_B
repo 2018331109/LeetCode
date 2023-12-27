@@ -1,0 +1,50 @@
+2975. Maximum Square Area by Removing Fences From a Field
+
+SUBMISSION
+C++
+class Solution
+{
+public:
+    const int mod=1e9+7;
+    int maximizeSquareArea(int m, int n, vector<int>& h, vector<int>& v)
+    {
+
+        h.push_back(1), h.push_back(m), v.push_back(1), v.push_back(n);
+        m=h.size(), n=v.size();
+
+        sort(h.begin(), h.end());
+        sort(v.begin(), v.end());
+
+        vector<int>v1, v2;
+
+        set<int>st;
+        for(int i=0; i<m; i++)
+        {
+            for(int j=i+1; j<m; j++)
+            {
+                st.insert(abs(h[i]-h[j]));
+            }
+        }
+
+        long mx=0;
+
+        for(int i=0; i<n; i++)
+        {
+            for(int j=i+1; j<n; j++)
+            {
+                int vl=abs(v[i]-v[j]);
+                if(st.find(vl) != st.end())
+                {
+                    mx=max(mx, (long)vl);
+                }
+            }
+        }
+
+        if(mx==0)
+        {
+            return -1;
+        }
+
+        return (mx*mx) % mod;
+    }
+};
